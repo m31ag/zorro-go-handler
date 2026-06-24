@@ -16,9 +16,9 @@ type proxy struct {
 	url    string
 }
 
-func NewProxy(url string) Proxy {
+func NewProxy(url string, client *resty.Client) Proxy {
 	return &proxy{
-		client: resty.New(),
+		client: client,
 		url:    url,
 	}
 }
