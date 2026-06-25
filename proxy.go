@@ -24,12 +24,7 @@ func NewProxy(url string, client *resty.Client) Proxy {
 }
 
 func (p *proxy) CompleteTask(dto OutputDto) error {
-	vars := make([]Variable, 0, len(dto.Variables))
-	for _, v := range dto.Variables {
-		vars = append(vars, v)
-	}
-
-	req := CompleteTaskRequest{Variables: vars}
+	req := CompleteTaskRequest{Variables: dto.Variables}
 	resp, err := p.client.R().
 		SetBody(req).
 		Post(fmt.Sprintf("%s/service-tasks/%s/complete", p.url, dto.ServiceTaskId))
