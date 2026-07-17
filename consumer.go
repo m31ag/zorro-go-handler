@@ -61,13 +61,13 @@ func (c *Consumer) Start() error {
 				continue
 			}
 
-			res, err := c.handler.Handle(input)
+			vars, err := c.handler.Handle(input)
 			if err != nil {
 				if err := c.proxy.FailTask(input.ServiceTaskId, err.Error()); err != nil {
 					slog.Error("fail task", "error", err)
 				}
 			} else {
-				if err := c.proxy.CompleteTask(res); err != nil {
+				if err := c.proxy.CompleteTask(input.ServiceTaskId, vars); err != nil {
 					slog.Error("complete task", "error", err)
 				}
 			}

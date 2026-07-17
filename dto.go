@@ -77,11 +77,6 @@ func (i *InputDto) Vars() []Variable {
 	return items
 }
 
-type OutputDto struct {
-	ServiceTaskId string     `json:"serviceTaskId"`
-	Variables     []Variable `json:"variables"`
-}
-
 // proxy
 type CompleteTaskRequest struct {
 	Variables []Variable `json:"variables"`

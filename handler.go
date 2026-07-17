@@ -1,6 +1,6 @@
 package zorro
 
 type Handler interface {
-	Handle(dto InputDto) (OutputDto, error)
+	Handle(dto InputDto) ([]Variable, error)
 	JobName() string
 }

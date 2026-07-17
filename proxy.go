@@ -8,7 +8,7 @@ import (
 )
 
 type Proxy interface {
-	CompleteTask(dto OutputDto) error
+	CompleteTask(id string, vars []Variable) error
 	FailTask(id string, message string) error
 }
 type proxy struct {
@@ -25,12 +25,12 @@ func NewProxy(url string, t string, client *resty.Client) Proxy {
 	}
 }
 
-func (p *proxy) CompleteTask(dto OutputDto) error {
-	req := CompleteTaskRequest{Variables: dto.Variables}
+func (p *proxy) CompleteTask(id string, vars []Variable) error {
+	req := CompleteTaskRequest{Variables: vars}
 	resp, err := p.client.R().
 		SetBody(req).
 		SetHeader("Authorization", p.token).
-		Post(fmt.Sprintf("%s/service-tasks/%s/complete", p.url, dto.ServiceTaskId))
+		Post(fmt.Sprintf("%s/service-tasks/%s/complete", p.url, id))
 	if err != nil {
 		return fmt.Errorf("complete task request: %w", err)
 	}
