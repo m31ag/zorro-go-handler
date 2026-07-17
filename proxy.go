@@ -17,9 +17,10 @@ type proxy struct {
 	token  string
 }
 
-func NewProxy(url string, client *resty.Client) Proxy {
+func NewProxy(url string, t string, client *resty.Client) Proxy {
 	return &proxy{
 		client: client,
+		token:  t,
 		url:    url,
 	}
 }
