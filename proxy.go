@@ -14,6 +14,7 @@ type Proxy interface {
 type proxy struct {
 	client *resty.Client
 	url    string
+	token  string
 }
 
 func NewProxy(url string, client *resty.Client) Proxy {
@@ -27,6 +28,7 @@ func (p *proxy) CompleteTask(dto OutputDto) error {
 	req := CompleteTaskRequest{Variables: dto.Variables}
 	resp, err := p.client.R().
 		SetBody(req).
+		SetHeader("Authorization", p.token).
 		Post(fmt.Sprintf("%s/service-tasks/%s/complete", p.url, dto.ServiceTaskId))
 	if err != nil {
 		return fmt.Errorf("complete task request: %w", err)
@@ -41,6 +43,7 @@ func (p *proxy) FailTask(id string, message string) error {
 	req := FailTaskRequest{Message: message, Retries: 0}
 	resp, err := p.client.R().
 		SetBody(req).
+		SetHeader("Authorization", p.token).
 		Post(fmt.Sprintf("%s/service-tasks/%s/fail", p.url, id))
 	if err != nil {
 		return fmt.Errorf("fail task request: %w", err)
