@@ -49,7 +49,7 @@ func (i *InputDto) GetInt(n string) (int, error) {
 	}
 	in, err := strconv.Atoi(v)
 	if err != nil {
-		return 0, err
+		return 0, fmt.Errorf("value %s in field %s must be a number", v, n)
 	}
 	return in, nil
 }
@@ -63,7 +63,7 @@ func (i *InputDto) GetTime(n, f string) (time.Time, error) {
 	}
 	t, err := time.Parse(f, v)
 	if err != nil {
-		return time.Time{}, err
+		return time.Time{}, fmt.Errorf("parsing time error with field %s. error: %w", n, err)
 	}
 	return t, nil
 }
