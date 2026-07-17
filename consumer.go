@@ -63,7 +63,7 @@ func (c *Consumer) Start() error {
 
 			res, err := c.handler.Handle(input)
 			if err != nil {
-				if err := c.proxy.FailTask(res.ServiceTaskId, err.Error()); err != nil {
+				if err := c.proxy.FailTask(input.ServiceTaskId, err.Error()); err != nil {
 					slog.Error("fail task", "error", err)
 				}
 			} else {

@@ -2,6 +2,7 @@ package zorro
 
 import (
 	"fmt"
+	"strconv"
 )
 
 type Variable struct {
@@ -36,6 +37,23 @@ func (i *InputDto) GetNotEmpty(n string) (string, error) {
 		return "", fmt.Errorf("variable with name %s is empty", n)
 	}
 	return v.Value, nil
+}
+
+// GetInt
+// return int or error if source string value is empty or is not exists
+func (i *InputDto) GetInt(n string) (int, error) {
+	v, ok := i.Variables[n]
+	if !ok {
+		return 0, fmt.Errorf("no variable with name %s exists", n)
+	}
+	if v.Value == "" {
+		return 0, fmt.Errorf("variable with name %s is empty", n)
+	}
+	in, err := strconv.Atoi(v.Value)
+	if err != nil {
+		return 0, err
+	}
+	return in, nil
 }
 
 func (i *InputDto) Vars() []Variable {
