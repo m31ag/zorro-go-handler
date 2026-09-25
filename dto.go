@@ -23,7 +23,7 @@ type InputDto struct {
 }
 
 // Get
-// return variable by name
+// return variable by name or empty string
 func (i *InputDto) Get(n string) string {
 	return i.Variables[n].Value
 }
@@ -67,6 +67,18 @@ func (i *InputDto) GetUuid(n string) (uuid.UUID, error) {
 		return uuid.Nil(), err
 	}
 	return u, nil
+}
+
+func (i *InputDto) GetUuidOrNil(n string) uuid.UUID {
+	v := i.Get(n)
+	if v != "" {
+		v, err := uuid.Parse(v)
+		if err != nil {
+			return uuid.Nil()
+		}
+		return v
+	}
+	return uuid.Nil()
 }
 
 // GetTime
