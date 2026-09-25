@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strconv"
 	"time"
+	"uuid"
 )
 
 type Variable struct {
@@ -52,6 +53,20 @@ func (i *InputDto) GetInt(n string) (int, error) {
 		return 0, fmt.Errorf("value %s in field %s must be a number", v, n)
 	}
 	return in, nil
+}
+
+// GetUuid
+// return uuid.UUID or error if source string value is empty or parse error
+func (i *InputDto) GetUuid(n string) (uuid.UUID, error) {
+	v, err := i.GetNotEmpty(n)
+	if err != nil {
+		return uuid.Nil(), err
+	}
+	u, err := uuid.Parse(v)
+	if err != nil {
+		return uuid.Nil(), err
+	}
+	return u, nil
 }
 
 // GetTime
