@@ -69,6 +69,8 @@ func (i *InputDto) GetUuid(n string) (uuid.UUID, error) {
 	return u, nil
 }
 
+// GetUuidOrNil
+// return uuid.UUID if present else return uuid.Nil instead of error
 func (i *InputDto) GetUuidOrNil(n string) uuid.UUID {
 	v := i.Get(n)
 	if v != "" {
